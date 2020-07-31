@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+<div id="pivot"></div>
+<div id="pivot_chart"></div>
+<script>
+    var pivot = new Flexmonster({
+    container: "#pivot",
+    componentFolder: "https://cdn.flexmonster.com/",
+    height: 600,
+    toolbar: true,
+    report: {
+        "dataSource":{
+            "type": "api",
+            "url": "http://localhost:9204/mongo", // the url where our connector is running
+            "index": "Padlet Data" // specify the collection’s name
+        },
+        "slice":{
+            "rows": [
+                {
+                    "uniqueName": "Week",
+                },
+                {
+                    "uniqueName": "Module",
+                },
+                {
+                    "uniqueName":"IncompleteActivities",
+                },
+                {
+                    "uniqueName":"IncompletedSprints",
+                },
+                {
+                    "uniqueName":"IncompletedReflections",
+                }
+
+            ],
+
+            "columns": [
+
+            {
+                "uniqueName": "[Measures]"  
+            }
+        ],
+        "measures":[
+            {
+                "uniqueName": "IncompleteActivities",
+                "aggregation": "sum"
+            },
+            {
+                "uniqueName": "IncompletedSprints",
+                "aggregation": "sum"
+            },
+            {
+                "uniqueName": "IncompletedReflections",
+                "aggregation": "sum"
+            }
+        ]
+
+        },
+        
+        "options": {
+            "editing": true,
+            "grid": {
+                "type":"flat"
+            },
+        }
+    }
+    });
+</script>
+{% endblock %}
